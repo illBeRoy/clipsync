@@ -33,17 +33,20 @@ class Interaction(object):
         body = json.loads(request.content.read())
 
         if not isinstance(body, dict) or body.get('secret') != self._secret:
-            return flask.Response(status=401)
+            request.setResponseCode(401)
+            return ''
 
         try:
             value = body['value']
         except:
-            return flask.Response(status=400)
+            request.setResponseCode(400)
+            return ''
 
         for callback in self._callbacks:
             callback(value)
 
-        return flask.Response(status=200)
+        request.setResponseCode(200)
+        return ''
 
     @staticmethod
     def create(args=None):
