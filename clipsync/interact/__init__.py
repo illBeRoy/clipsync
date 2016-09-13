@@ -14,7 +14,7 @@ class Interaction(object):
         self._initialize_app()
 
     def send_value(self, host, value):
-        url = 'http://{0}/{1}'.format(host, 'clipboard')
+        url = 'http://{0}:{1}/{2}'.format(host, self._port, 'clipboard')
         data = {'secret': self._secret, 'value': value}
         headers = {'Content-Type': ['application/json']}
 
