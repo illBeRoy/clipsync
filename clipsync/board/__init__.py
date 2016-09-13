@@ -15,7 +15,10 @@ class Clipboard(object):
 
     @property
     def value(self):
-        return self._clipboard.paste()
+        try:
+            return self._clipboard.paste()
+        except:
+            return ''
 
     def copy(self, value):
         self._clipboard.copy(value)
@@ -26,9 +29,8 @@ class Clipboard(object):
 
     def _clipboard_listener(self):
         current_clipboard_value = self.value
-        print 'a'
+
         if current_clipboard_value != self._last_clipboard_value_on_poll:
-            print 'b'
             self._last_clipboard_value_on_poll = current_clipboard_value
 
             for callback in self._clipboard_callbacks:
