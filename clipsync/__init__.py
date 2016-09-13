@@ -16,8 +16,8 @@ class Application(object):
         self._clipboard.on_clipboard_change(self._clipboard_value_has_changed)
         self._interaction.on_incoming_value(self._value_received_from_peer)
 
-        self._interaction.listen()
         self._discovery.start()
+        self._interaction.listen()
 
     def _clipboard_value_has_changed(self, value):
         for peer in self._discovery.peers:
