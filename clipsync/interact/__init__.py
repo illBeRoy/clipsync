@@ -14,7 +14,7 @@ class Interaction(object):
         self._initialize_app()
 
     def send_value(self, host, value):
-        url = '{0}/{1}'.format(host, 'clipboard')
+        url = 'http://{0}/{1}'.format(host, 'clipboard')
         data = {'secret': self._secret, 'value': value}
         headers = {'Content-Type': ['application/json']}
 
@@ -24,7 +24,7 @@ class Interaction(object):
         self._callbacks.append(callback)
 
     def listen(self):
-        self._app.run('localhost', self._port)
+        self._app.run('0.0.0.0', self._port)
 
     def _initialize_app(self):
         self._app.route('/clipboard', methods=['POST'])(self._on_incoming_message)
