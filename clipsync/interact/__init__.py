@@ -49,7 +49,7 @@ class Interaction(object):
         return ''
 
     @staticmethod
-    def create(args=None):
+    def create(args):
         app = klein.Klein()
 
-        return Interaction(app)
+        return Interaction(app, port=args.port, secret=args.channel)

@@ -31,9 +31,13 @@ class Discovery(object):
         self._peers = [peer for peer in peers if peer not in ['localhost', '127.0.0.1']]
 
     @staticmethod
-    def create(args=None):
-        discovery_port = 12000
-        discovery_keyword = 'clipsync'
+    def _generate_channel_keyword(secret):
+        return '_clipsync_ch_{0}'.format(secret)
+
+    @staticmethod
+    def create(args):
+        discovery_port = args.port + 1
+        discovery_keyword = Discovery._generate_channel_keyword(args.channel)
 
         beacon_server = beacon.Beacon(discovery_port, discovery_keyword)
         beacon_server.daemon = True

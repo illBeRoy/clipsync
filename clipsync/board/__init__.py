@@ -37,5 +37,5 @@ class Clipboard(object):
                 callback(current_clipboard_value)
 
     @staticmethod
-    def create(args=None):
+    def create(args):
         return Clipboard(clipboard)
