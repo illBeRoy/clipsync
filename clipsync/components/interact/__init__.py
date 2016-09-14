@@ -5,8 +5,9 @@ import json
 
 class Interaction(object):
 
-    def __init__(self, app, port=3000, secret='i_am_roy'):
+    def __init__(self, app, encrypt, port=3000, secret='i_am_roy'):
         self._app = app
+        self._encrypt = encrypt
         self._port = port
         self._secret = secret
         self._callbacks = []
@@ -15,10 +16,12 @@ class Interaction(object):
 
     def send_value(self, host, value):
         url = 'http://{0}:{1}/{2}'.format(host, self._port, 'clipboard')
-        data = {'secret': self._secret, 'value': value}
+        data = {'value': value}
         headers = {'Content-Type': ['application/json']}
 
-        treq.post(url, data=json.dumps(data), headers=headers)
+        encrypted_data = self._encrypt.encrypt(json.dumps(data))
+
+        treq.post(url, data=encrypted_data, headers=headers)
 
     def on_incoming_value(self, callback):
         self._callbacks.append(callback)
@@ -30,9 +33,11 @@ class Interaction(object):
         self._app.route('/clipboard', methods=['POST'])(self._on_incoming_message)
 
     def _on_incoming_message(self, request):
-        body = json.loads(request.content.read())
+        decrypted_data = self._encrypt.decrypt(request.content.read())
 
-        if not isinstance(body, dict) or body.get('secret') != self._secret:
+        try:
+            body = json.loads(decrypted_data)
+        except:
             request.setResponseCode(401)
             return ''
 
@@ -52,4 +57,4 @@ class Interaction(object):
     def create(args):
         app = klein.Klein()
 
-        return Interaction(app, port=args.port, secret=args.channel)
+        return Interaction(app, args.encrypt, port=args.port, secret=args.channel)

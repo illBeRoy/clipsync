@@ -1,6 +1,0 @@
-Klein==15.3.1
-Twisted==16.4.0
-clipboard==0.0.4
-detach==1.0
-netbeacon==1.1
-treq==15.1.0

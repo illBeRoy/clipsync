@@ -2,9 +2,10 @@ import os
 import signal
 import detach
 
-import clipsync.board
-import clipsync.interact
-import clipsync.discovery
+import clipsync.components.discovery
+import clipsync.components.board
+import clipsync.components.interact
+import clipsync.utils.encrypt
 
 
 class Application(object):
@@ -49,15 +50,17 @@ class Application(object):
 
     @staticmethod
     def run_with_args(args):
+        args.encrypt = clipsync.utils.encrypt.Encrypt.create(args.channel)
+
         with detach.Detach() as d:
             if d.pid:
                 Application._stop_previous_daemon()
                 Application._save_daemon_pid(d.pid)
                 print 'clipsync started on channel {0}'.format(args.channel)
             else:
-                clipboard = clipsync.board.Clipboard.create(args)
-                interaction = clipsync.interact.Interaction.create(args)
-                discovery = clipsync.discovery.Discovery.create(args)
+                clipboard = clipsync.components.board.Clipboard.create(args)
+                interaction = clipsync.components.interact.Interaction.create(args)
+                discovery = clipsync.components.discovery.Discovery.create(args)
 
                 app = Application(clipboard, interaction, discovery)
                 app._start()
