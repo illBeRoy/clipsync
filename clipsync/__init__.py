@@ -52,18 +52,18 @@ class Application(object):
     def run_with_args(args):
         args.encrypt = clipsync.utils.encrypt.Encrypt.create(args.channel)
 
-        # with detach.Detach() as d:
-        #     if d.pid:
-        #         Application._stop_previous_daemon()
-        #         Application._save_daemon_pid(d.pid)
-        #         print 'clipsync started on channel {0}'.format(args.channel)
-        #     else:
-        clipboard = clipsync.components.board.Clipboard.create(args)
-        interaction = clipsync.components.interact.Interaction.create(args)
-        discovery = clipsync.components.discovery.Discovery.create(args)
+        with detach.Detach() as d:
+            if d.pid:
+                Application._stop_previous_daemon()
+                Application._save_daemon_pid(d.pid)
+                print 'clipsync started on channel {0}'.format(args.channel)
+            else:
+                clipboard = clipsync.components.board.Clipboard.create(args)
+                interaction = clipsync.components.interact.Interaction.create(args)
+                discovery = clipsync.components.discovery.Discovery.create(args)
 
-        app = Application(clipboard, interaction, discovery)
-        app._start()
+                app = Application(clipboard, interaction, discovery)
+                app._start()
 
     @staticmethod
     def stop_with_args(args):

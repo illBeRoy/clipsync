@@ -22,4 +22,5 @@ Available from pip:
 	2. If the daemon was up, it will now be stopped.
 
 ### Important notes:
-1. Only works on *nix systems at the moment (mac and linux)
+1. Only tested on *nix systems at the moment (mac and linux)
+2. Communication is encrypted using AES
