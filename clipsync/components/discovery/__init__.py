@@ -39,6 +39,7 @@ class Discovery(object):
         discovery_port = args.port + 1
         discovery_keyword = Discovery._generate_channel_keyword(args.channel)
         encrypted_keyword = args.encrypt.encrypt(discovery_keyword)
+        print encrypted_keyword
 
         beacon_server = beacon.Beacon(discovery_port, encrypted_keyword)
         beacon_server.daemon = True
