@@ -15,6 +15,6 @@ setup(name='clipsync',
                         'clipboard==0.0.4',
                         'detach==1.0',
                         'netbeacon==1.1',
-                        'treq==15.1.0',
+                        'treq==22.1.0',
                         'pycrypto==2.6.1'],
       entry_points={'console_scripts': ['clipsync = run:main']})
